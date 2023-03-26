@@ -1,11 +1,17 @@
-const {client }= require("./client");
+const { client } = require("./client");
 
 async function addActivityToRoutine({
   routineId,
   activityId,
   count,
   duration,
-}) {}
+}) {
+  try {
+    const
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 async function getRoutineActivityById(id) {}
 

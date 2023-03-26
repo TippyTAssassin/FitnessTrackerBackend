@@ -1,10 +1,7 @@
 // require in the database adapter functions as you write them (createUser, createActivity...)
 
 // const { } = require('./');
-const {
-  client,
-} = require("./client");
-
+const { client } = require('./client.js');
 const {
   createUser,
   createActivity,
@@ -14,49 +11,51 @@ const {
   addActivityToRoutine
 } = require('./');
 
-
-async function dropTables() {
+const dropTables = async () => {
   try {
-    console.log("Dropping All Tables...")
+    console.log("Dropping All Tables...");
 
     await client.query(`
-    DROP TABLE IF EXISTS users;
-    DROP TABLE IF EXISTS activities;
-    DROP TABLE IF EXISTS routines;
-    DROP TABLE IF EXISTS routine_activities;
+      DROP TABLE IF EXISTS users CASCADE;
+      DROP TABLE IF EXISTS activities CASCADE;
+      DROP TABLE IF EXISTS routines CASCADE;
+      DROP TABLE IF EXISTS routine_activities CASCADE;
     `);
-  }catch(err) {
-    console.log(err);
+
+    console.log("Finished dropping tables!");
+  } catch (error) {
+    console.error("Error dropping tables!");
+    throw error;
   }
   // drop all tables, in the correct order
 }
 
-async function createTables() {
+const createTables = async () => {
  try {
   console.log("Starting to build tables...")
 
   await client.query(`
-    CREATE TABLE users(
+    CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL
     );
 
-    CREATE TABLE activities(
+    CREATE TABLE activities (
       id SERIAL PRIMARY KEY,
       name VARCHAR(255) UNIQUE NOT NULL,
       description TEXT NOT NULL
     );
 
-    CREATE TABLE routines(
+    CREATE TABLE routines (
       id SERIAL PRIMARY KEY,
-      "creatorId" INTERGER REFERENCES users(id),
+      "creatorId" INTEGER REFERENCES users(id),
       "isPublic" BOOLEAN DEFAULT false,
       name VARCHAR(255) UNIQUE NOT NULL,
       goal TEXT NOT NULL
     );
 
-    CREATE TABLE routine_activities(
+    CREATE TABLE routine_activities (
       id SERIAL PRIMARY KEY,
       "routineId" INTEGER REFERENCES routines(id),
       "activityId" INTEGER REFERENCES activities(id),
@@ -65,8 +64,11 @@ async function createTables() {
       UNIQUE ("routineId", "activityId")
     )
   `);
- }catch(err){
-   console.log(err);
+
+  console.log("Finished creating tables!")
+ }catch(error){
+   console.log("Error building tables!");
+   throw error;
  }
   // create all tables, in the correct order
 }
