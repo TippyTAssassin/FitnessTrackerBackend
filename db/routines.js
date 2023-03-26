@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-const {client} = require("./client");
-
-async function createRoutine({ creatorId, isPublic, name, goal }) {}
-=======
 const { client } = require("./client");
 
 async function createRoutine({ 
@@ -23,7 +18,6 @@ async function createRoutine({
     console.log(error);
   }
 }
->>>>>>> a493ef615d7ed524e278b740eb8891d2ff955c02
 
 async function getRoutineById(id) {}
 
