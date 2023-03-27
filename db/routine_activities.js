@@ -7,21 +7,47 @@ async function addActivityToRoutine({
   duration,
 }) {
   try {
-    const { rows: [routineActivity] } = await client.query(`
+    const { rows: [ routineActivity ] } = await client.query(`
     INSERT INTO routine_activities("routineId", "activityId", count, duration)
     VALUES($1, $2, $3, $4)
     RETURNING *;
     `, [routineId, activityId, count, duration]);
 
     return routineActivity;
-
-  } catch(error){
+  } catch(error) {
     console.log(error);
   }
+}
 
-async function getRoutineActivityById(id) {}
+async function getRoutineActivityById(id) {
+  try {
+    const { rows: [routineActivity] } = await client.query(`
+    SELECT *
+    FROM routineActivities
+    WHERE id=${id}
+    `,)
+  
+    return routineActivity;
+  }catch (error){
+  console.log(error);
+  }
+}
 
-async function getRoutineActivitiesByRoutine({ id }) {}
+
+
+async function getRoutineActivitiesByRoutine({ id }) {
+  try {
+    const { rows: [routineActivity] } = await client.query(`
+    SELECT *
+    FROM routineActivities
+    WHERE "routineId"
+    `,)
+  
+    return routineActivity;
+  }catch (error){
+  console.log(error);
+  }
+}
 
 async function updateRoutineActivity({ id, ...fields }) {}
 
