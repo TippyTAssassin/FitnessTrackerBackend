@@ -37,8 +37,9 @@ async function getRoutinesWithoutActivities() {
   try {
     const { rows } = await client.query(`
     SELECT id, "creatorId", "isPublic", name, goal
-    FROM routines;
-    `)
+    FROM routines
+    `);
+
     return rows;
   } catch (error) {
     console.log(error);
@@ -49,8 +50,9 @@ async function getAllRoutines() {
   try {
     const { rows } = await client.query(`
     SELECT *
-    FROM routines;
-    `)
+    FROM routines
+    `);
+
     
    return rows;
   }catch(error){
@@ -62,8 +64,7 @@ async function getAllPublicRoutines() {
   try {
     const { rows: [ routine ] } = await client.query(`
     SELECT *
-    FROM routines 
-    WHERE routines."isPublic" = true;
+    FROM routines
     `)
     
    return routine
