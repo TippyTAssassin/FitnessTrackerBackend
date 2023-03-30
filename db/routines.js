@@ -59,7 +59,7 @@ async function getAllRoutines() {
     
     const routinesWithActivities = await attachActivitiesToRoutines(routines);
     
-    console.log('ROUTINE', routinesWithActivities);
+    // console.log('ROUTINE', routinesWithActivities);
     
    return routinesWithActivities;
   }catch(error){
@@ -69,12 +69,16 @@ async function getAllRoutines() {
 
 async function getAllPublicRoutines() {
   try {
-    const { rows: [ routine ] } = await client.query(`
-    SELECT *
+    const { rows:  routines  } = await client.query(`
+    SELECT routines.*, users.username AS "creatorName"
     FROM routines
-    `)
-    
-   return routine
+    JOIN users
+    ON routines."creatorId" = users.id
+    WHERE "isPublic" = true
+    `);
+    const publicRoutinesWithActivities = await attachActivitiesToRoutines(routines);
+    console.log("PUBLIC",publicRoutinesWithActivities);
+   return publicRoutinesWithActivities
   }catch(error){
    console.log(error)
   }
