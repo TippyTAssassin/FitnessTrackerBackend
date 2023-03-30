@@ -1,4 +1,5 @@
 const { client } = require("./client");
+const {attachActivitiesToRoutines} = require("./activities.js");
 
 async function createRoutine({ 
   creatorId, 
@@ -48,13 +49,19 @@ async function getRoutinesWithoutActivities() {
 
 async function getAllRoutines() {
   try {
-    const { rows } = await client.query(`
-    SELECT *
-    FROM routines
-    `);
-
     
-   return rows;
+    const { rows: routines } = await client.query(`
+    SELECT routines.*, users.username AS "creatorName"
+    FROM routines
+    JOIN users
+    ON routines."creatorId" = users.id
+    `);
+    
+    const routinesWithActivities = await attachActivitiesToRoutines(routines);
+    
+    console.log('ROUTINE', routinesWithActivities);
+    
+   return routinesWithActivities;
   }catch(error){
    console.log(error);
   }
@@ -118,3 +125,10 @@ module.exports = {
   updateRoutine,
   destroyRoutine,
 };
+
+
+// const sum = (num1, num2) => {
+//   return num1 + num2;
+// } 
+// sum(3, 5)
+// const result = sum(3,5)
