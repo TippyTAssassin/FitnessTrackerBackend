@@ -1,7 +1,6 @@
 const { client } = require("./client");
 const {attachActivitiesToRoutines} = require("./activities.js");
 const {getUserByUsername} = require("./users.js");
-const {getActivityById} = require("./activities.js");
 
 async function createRoutine({ 
   creatorId, 
@@ -167,12 +166,8 @@ async function updateRoutine({ id, ...fields }) {
 async function destroyRoutine(id) {
   try {
     await client.query(`
-      DELETE FROM routines
-      WHERE id=${id}
-      RETURNING *;
-      DELETE FROM routine_activities
-      WHERE "routineId" = ${id}
-      RETURNING *;
+      DELETE FROM routine_activities WHERE "routineId" = ${id};
+      DELETE FROM routines WHERE id = ${id};
     `);
 
     return;
@@ -180,6 +175,7 @@ async function destroyRoutine(id) {
     console.log(error);
   }
 }
+
 
 module.exports = {
   getRoutineById,
@@ -193,10 +189,3 @@ module.exports = {
   updateRoutine,
   destroyRoutine,
 };
-
-
-// const sum = (num1, num2) => {
-//   return num1 + num2;
-// } 
-// sum(3, 5)
-// const result = sum(3,5)
