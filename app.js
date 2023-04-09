@@ -1,4 +1,4 @@
-require("dotenv").config()
+require("dotenv").config();
 const express = require("express");
 const { client } = require("./db/client");
 const app = express()
@@ -8,6 +8,9 @@ client.connect();
 
 const morgan = require('morgan');
 app.use(morgan('dev'));
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
 
 const cors = require('cors');
 app.use(cors());

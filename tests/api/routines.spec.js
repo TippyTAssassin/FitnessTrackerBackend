@@ -65,7 +65,7 @@ describe("/api/routines", () => {
   });
 
   describe("POST /api/routines (*)", () => {
-    xit("Creates a new routine, with the creatorId matching the logged in user", async () => {
+      xit("Creates a new routine, with the creatorId matching the logged in user", async () => {
       const { fakeUser, token } = await createFakeUserWithToken("Marsha");
 
       const routineData = {

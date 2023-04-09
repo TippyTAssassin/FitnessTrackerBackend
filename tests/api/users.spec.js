@@ -6,7 +6,7 @@ DO NOT CHANGE THIS FILE
 require("dotenv").config();
 const request = require("supertest");
 const faker = require("faker");
-const client = require("../../db/client");
+const {client} = require("../../db/client");
 const app = require("../../app");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
