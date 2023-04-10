@@ -12,7 +12,6 @@ router.patch('/:routineActivityId', async(req, res, next) => {
      const token = authHeader.split(' ')[1];
      const userId = jwt.verify(token, JWT_SECRET)['id'];
      const user = await getUserById(userId);
-     console.log("USER", user);
      const id = req.params['routineActivityId'];
      const routineActivity = await getRoutineActivityById(id)
      const routine = await getRoutineById(routineActivity.routineId);
