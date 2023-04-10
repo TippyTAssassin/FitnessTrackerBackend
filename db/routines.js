@@ -140,6 +140,8 @@ async function getPublicRoutinesByActivity({ id }) {
   }
 }
 
+
+
 async function updateRoutine({ id, ...fields }) {
   const setString = Object.keys(fields).map(
     (key, index) => `"${ key }"=$${ index + 1}`
