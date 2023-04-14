@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const path = require('path');
 
 // GET /api/health
 router.get('/health', async (req, res, next) => {
@@ -7,6 +8,10 @@ router.get('/health', async (req, res, next) => {
         "message": "All Gucci!"
     });
 });
+
+router.get('/', (req, res, next) => res.sendFile(path.join(__dirname, '../index.html')));
+
+router.use('/dist', express.static(path.join(__dirname, '../dist')));
 
 // ROUTER: /api/users
 const usersRouter = require('./users');
